@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WHUTRunner.ViewModels"
+    xmlns:models="using:WHUTRunner.Models"
+    xmlns:icons="using:Material.Icons.Avalonia" mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:Class="WHUTRunner.Views.FeaturesView" x:DataType="vm:FeaturesViewModel">
+
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <TextBlock Grid.Row="0" Text="{Binding Title}" FontSize="24" Margin="0,0,0,20"/>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Scripts}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:ScriptItem">
+                        <Border Background="#2F3136" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                            <Grid RowDefinitions="Auto,Auto,Auto">
+                                <!-- 标题和描述 -->
+                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Description}" Opacity="0.7" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsEnabled}"/>
+                                </Grid>
+
+                                <!-- 参数输入 -->
+                                <ItemsControl Grid.Row="1" ItemsSource="{Binding Parameters}" Margin="0,16,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="Auto,*" Margin="0,0,0,8">
+                                                <TextBlock Grid.Column="0" Text="{Binding Key}" VerticalAlignment="Center" Width="100"/>
+                                                <TextBox Grid.Column="1" Text="{Binding Value}" Watermark="请输入..."/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- 操作按钮 -->
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="8">
+                                    <Button Classes="Primary" Command="{CompiledBinding $parent[ItemsControl].((vm:FeaturesViewModel)DataContext).RunCommand}" CommandParameter="{Binding}" IsEnabled="{Binding IsEnabled}" Background="{StaticResource DiscordBlurpleBrush}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <icons:MaterialIcon Kind="Play"/>
+                                            <TextBlock Text="运行"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{CompiledBinding $parent[ItemsControl].((vm:FeaturesViewModel)DataContext).StopCommand}" IsVisible="{CompiledBinding $parent[ItemsControl].((vm:FeaturesViewModel)DataContext).IsRunning}" Background="{StaticResource DiscordRedBrush}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <icons:MaterialIcon Kind="Stop"/>
+                                            <TextBlock Text="停止"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

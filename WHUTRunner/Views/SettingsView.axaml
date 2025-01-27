@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WHUTRunner.ViewModels"
+    xmlns:icons="using:Material.Icons.Avalonia" mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:Class="WHUTRunner.Views.SettingsView" x:DataType="vm:SettingsViewModel">
+
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="20">
+            <TextBlock Text="{Binding Title}" FontSize="24" Margin="0,0,0,20"/>
+
+            <!-- 默认参数 -->
+            <Border Background="#2F3136" CornerRadius="8" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="默认参数" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                    <ItemsControl ItemsSource="{Binding DefaultParameters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto,*" Margin="0,0,0,8">
+                                    <TextBlock Grid.Column="0" Text="{Binding Key}" VerticalAlignment="Center" Width="100"/>
+                                    <TextBox Grid.Column="1" Text="{Binding Value}" Watermark="请输入..."/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- 其他选项 -->
+            <Border Background="#2F3136" CornerRadius="8" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="其他选项" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                    <StackPanel Spacing="8">
+                        <CheckBox Content="开机自启" IsChecked="{Binding AutoStart}"/>
+                        <CheckBox Content="最小化到托盘" IsChecked="{Binding MinimizeToTray}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

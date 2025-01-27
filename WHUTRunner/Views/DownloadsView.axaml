@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:WHUTRunner.ViewModels"
+    xmlns:models="using:WHUTRunner.Models"
+    xmlns:icons="using:Material.Icons.Avalonia" mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:Class="WHUTRunner.Views.DownloadsView" x:DataType="vm:DownloadsViewModel">
+
+	<Grid RowDefinitions="Auto,*" Margin="20">
+		<!-- 标题栏和搜索框 -->
+		<Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,20">
+			<TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="24" VerticalAlignment="Center"/>
+
+			<Grid Grid.Column="1" Margin="20,0,20,10">
+				<TextBox Text="{Binding SearchText}" Watermark="搜索脚本..." Classes="clearButton">
+					<TextBox.InnerLeftContent>
+						<icons:MaterialIcon Kind="Search" Margin="8,0" Opacity="0.5"/>
+					</TextBox.InnerLeftContent>
+				</TextBox>
+			</Grid>
+
+			<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+				<Button Command="{Binding RefreshCommand}">
+					<icons:MaterialIcon Kind="Refresh"/>
+				</Button>
+			</StackPanel>
+		</Grid>
+
+		<!-- 脚本列表 -->
+		<ScrollViewer Grid.Row="1">
+			<ItemsControl ItemsSource="{Binding FilteredPackages}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate DataType="models:ScriptPackage">
+						<Border Background="#2F3136" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+							<Grid ColumnDefinitions="Auto,*,Auto">
+								<!-- 图标 -->
+								<Border Grid.Column="0" Width="48" Height="48" ClipToBounds="True" CornerRadius="4" Margin="0,0,16,0">
+									<Image Source="{Binding IconUrl}" Stretch="UniformToFill"/>
+								</Border>
+
+								<!-- 信息 -->
+								<StackPanel Grid.Column="1" Spacing="4">
+									<TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold"/>
+									<TextBlock Text="{Binding Description}" Opacity="0.7" TextWrapping="Wrap"/>
+									<StackPanel Orientation="Horizontal" Spacing="16" Margin="0,8,0,0">
+										<StackPanel Orientation="Horizontal" Spacing="4">
+											<icons:MaterialIcon Kind="Account" Opacity="0.5"/>
+											<TextBlock Text="{Binding Author}" Opacity="0.5"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="4">
+											<icons:MaterialIcon Kind="Download" Opacity="0.5"/>
+											<TextBlock Text="{Binding DownloadCount}" Opacity="0.5"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="4">
+											<icons:MaterialIcon Kind="Clock" Opacity="0.5"/>
+											<TextBlock Text="{Binding LastUpdated, StringFormat={}{0:yyyy-MM-dd}}" Opacity="0.5"/>
+										</StackPanel>
+									</StackPanel>
+								</StackPanel>
+
+								<!-- 操作按钮 -->
+								<Button Grid.Column="2" Command="{Binding $parent[ItemsControl].((vm:DownloadsViewModel)DataContext).InstallCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" IsVisible="{Binding !IsInstalled}" Background="{StaticResource DiscordBlurpleBrush}">
+									<StackPanel Orientation="Horizontal" Spacing="8">
+										<icons:MaterialIcon Kind="Download"/>
+										<TextBlock Text="安装"/>
+									</StackPanel>
+								</Button>
+								<Button Grid.Column="2" Command="{Binding $parent[ItemsControl].((vm:DownloadsViewModel)DataContext).UninstallCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" IsVisible="{Binding IsInstalled}" Background="{StaticResource DiscordRedBrush}">
+									<StackPanel Orientation="Horizontal" Spacing="8">
+										<icons:MaterialIcon Kind="Delete"/>
+										<TextBlock Text="卸载"/>
+									</StackPanel>
+								</Button>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<!-- 加载指示器 -->
+		<Grid Grid.Row="1" IsVisible="{Binding IsLoading}" Background="#80000000">
+			<ProgressBar IsIndeterminate="True" Width="200" Height="4"/>
+		</Grid>
+	</Grid>
+</UserControl>

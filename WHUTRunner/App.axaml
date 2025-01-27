@@ -1,0 +1,38 @@
+<Application xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="WHUTRunner.App"
+	xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+	xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+	xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+	xmlns:whutRunner="clr-namespace:WHUTRunner" RequestedThemeVariant="Default">
+
+	<Application.DataTemplates>
+		<whutRunner:ViewLocator/>
+	</Application.DataTemplates>
+
+	<Application.Styles>
+		<themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Purple" SecondaryColor="DeepPurple"/>
+		<materialIcons:MaterialIconStyles/>
+		<dialogHost:DialogHostStyles/>
+	</Application.Styles>
+
+	<Application.Resources>
+		<Color x:Key="DiscordBlurple">#5865F2</Color>
+		<Color x:Key="DiscordGreen">#57F287</Color>
+		<Color x:Key="DiscordYellow">#FEE75C</Color>
+		<Color x:Key="DiscordFuchsia">#EB459E</Color>
+		<Color x:Key="DiscordRed">#ED4245</Color>
+		<Color x:Key="DiscordBackground">#36393F</Color>
+		<Color x:Key="DiscordChannelHover">#42464D</Color>
+		<Color x:Key="DiscordChannelSelected">#393C43</Color>
+
+		<SolidColorBrush x:Key="DiscordBlurpleBrush" Color="{StaticResource DiscordBlurple}"/>
+		<SolidColorBrush x:Key="DiscordGreenBrush" Color="{StaticResource DiscordGreen}"/>
+		<SolidColorBrush x:Key="DiscordYellowBrush" Color="{StaticResource DiscordYellow}"/>
+		<SolidColorBrush x:Key="DiscordFuchsiaBrush" Color="{StaticResource DiscordFuchsia}"/>
+		<SolidColorBrush x:Key="DiscordRedBrush" Color="{StaticResource DiscordRed}"/>
+		<SolidColorBrush x:Key="DiscordBackgroundBrush" Color="{StaticResource DiscordBackground}"/>
+		<SolidColorBrush x:Key="DiscordChannelHoverBrush" Color="{StaticResource DiscordChannelHover}"/>
+		<SolidColorBrush x:Key="DiscordChannelSelectedBrush" Color="{StaticResource DiscordChannelSelected}"/>
+	</Application.Resources>
+
+</Application>

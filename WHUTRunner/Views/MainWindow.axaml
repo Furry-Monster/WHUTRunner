@@ -1,0 +1,133 @@
+<Window xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:vm="using:WHUTRunner.ViewModels"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:icons="using:Material.Icons.Avalonia"
+	xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+	xmlns:models="using:WHUTRunner.Models" mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800" x:Class="WHUTRunner.Views.MainWindow" x:DataType="vm:MainWindowViewModel" Icon="/Assets/icon.ico" Title="WHUTRunner" WindowStartupLocation="CenterScreen" Background="Transparent" TransparencyLevelHint="AcrylicBlur" ExtendClientAreaToDecorationsHint="True" ExtendClientAreaChromeHints="NoChrome" ExtendClientAreaTitleBarHeightHint="-1">
+
+	<Design.DataContext>
+		<!-- 这只是为IDE预览器设置DataContext
+             实际运行时的DataContext在App.axaml.cs中设置 -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintColor="Black" TintOpacity="1" MaterialOpacity="0.65" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+		<dialogHost:DialogHost Identifier="RootDialog">
+			<!-- 背景模糊效果 -->
+			<!-- 主布局 -->
+			<DockPanel>
+				<!-- 自定义标题栏 -->
+				<Grid x:Name="TitleBar" DockPanel.Dock="Top" Height="30" ColumnDefinitions="Auto,*,Auto" Background="#1E1F22">
+					<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" Margin="8,0">
+						<Button Classes="MenuButton" Command="{Binding ToggleNavigationPaneCommand}">
+							<icons:MaterialIcon Kind="Menu"/>
+						</Button>
+						<TextBlock Text="WHUTRunner" VerticalAlignment="Center" Foreground="#B8B9BF"/>
+					</StackPanel>
+
+					<!-- 添加一个透明的区域用于拖动 -->
+					<Grid Grid.Column="1" Background="Transparent"/>
+
+					<StackPanel Grid.Column="2" Orientation="Horizontal">
+						<Button Classes="WindowButton" Command="{Binding MinimizeWindowCommand}">
+							<icons:MaterialIcon Kind="WindowMinimize" Foreground="#B8B9BF"/>
+						</Button>
+						<Button Classes="WindowButton" Command="{Binding MaximizeWindowCommand}">
+							<icons:MaterialIcon Kind="WindowMaximize" Foreground="#B8B9BF"/>
+						</Button>
+						<Button Classes="WindowButton Close" Command="{Binding CloseWindowCommand}">
+							<icons:MaterialIcon Kind="WindowClose" Foreground="#B8B9BF"/>
+						</Button>
+					</StackPanel>
+				</Grid>
+
+				<!-- 导航栏 -->
+				<SplitView IsPaneOpen="{Binding IsNavigationPaneOpen}" DisplayMode="CompactInline" OpenPaneLength="250" CompactPaneLength="50" PaneBackground="#2B2D31">
+
+					<SplitView.Pane>
+						<!-- 导航菜单 -->
+						<ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding SelectedItem}" Background="Transparent" Margin="4">
+							<ListBox.DataTemplates>
+								<DataTemplate DataType="models:NavigationItem">
+									<DockPanel>
+										<icons:MaterialIcon Kind="{Binding Icon}" Width="24" Height="24" DockPanel.Dock="Left"/>
+										<TextBlock Text="{Binding Title}" Margin="12,0,0,0" VerticalAlignment="Center"/>
+									</DockPanel>
+								</DataTemplate>
+							</ListBox.DataTemplates>
+						</ListBox>
+					</SplitView.Pane>
+
+					<!-- 主内容区域 -->
+					<ContentControl Content="{Binding CurrentPage}"/>
+
+				</SplitView>
+			</DockPanel>
+		</dialogHost:DialogHost>
+	</Panel>
+
+	<Window.Styles>
+		<Style Selector="Button.WindowButton">
+			<Setter Property="Width" Value="46"/>
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="CornerRadius" Value="0"/>
+		</Style>
+		<Style Selector="Button.WindowButton:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#22FFFFFF"/>
+		</Style>
+		<Style Selector="Button.WindowButton:pointerover > icons|MaterialIcon">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+		<Style Selector="Button.WindowButton.Close:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#E81123"/>
+		</Style>
+		<Style Selector="Button.WindowButton.Close:pointerover > icons|MaterialIcon">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+		<Style Selector="ListBox">
+			<Setter Property="BorderThickness" Value="0"/>
+		</Style>
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="Margin" Value="4"/>
+			<Setter Property="CornerRadius" Value="4"/>
+		</Style>
+		<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="{StaticResource DiscordChannelHoverBrush}"/>
+		</Style>
+		<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+			<Setter Property="Background" Value="{StaticResource DiscordBlurpleBrush}"/>
+		</Style>
+		<Style Selector="Button.MenuButton">
+			<Setter Property="Width" Value="32"/>
+			<Setter Property="Height" Value="32"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Padding" Value="4"/>
+			<Setter Property="CornerRadius" Value="4"/>
+		</Style>
+		<Style Selector="Button.MenuButton:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#22FFFFFF"/>
+		</Style>
+		<Style Selector="Button.MenuButton > icons|MaterialIcon">
+			<Setter Property="Foreground" Value="#B8B9BF"/>
+		</Style>
+		<Style Selector="Button.MenuButton:pointerover > icons|MaterialIcon">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+	</Window.Styles>
+</Window>

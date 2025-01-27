@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+    mc:Ignorable="d" d:DesignWidth="300" x:Class="WHUTRunner.Views.Dialogs.AddPackageDialog">
+	<StackPanel Spacing="16" MinWidth="300">
+		<TextBlock Text="添加包" FontSize="18" FontWeight="Bold"/>
+		<TextBox Name="PackageNameInput" Watermark="输入包名，如：requests==2.31.0"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+			<Button Content="取消" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=CloseDialogCommand}" CommandParameter="{x:Null}"/>
+			<Button Content="确定" Background="{StaticResource DiscordBlurpleBrush}"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=CloseDialogCommand}"
+                    CommandParameter="{Binding #PackageNameInput.Text}"/>
+		</StackPanel>
+	</StackPanel>
+</UserControl>
