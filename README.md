@@ -1,5 +1,7 @@
 # WHUTRunner
 
+!(目前已失效)
+
 WHUTRunner 是一个基于 Avalonia UI 的跨平台自动化工具，用于管理和运行 Python 和 Node.js 脚本。它提供了一个现代化的用户界面，支持脚本的下载、安装和运行。
 (注：有点BUG还在开发中)
 
